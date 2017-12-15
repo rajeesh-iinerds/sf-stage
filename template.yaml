@@ -4,7 +4,7 @@ Resources:
   CICDApiGatewayPreTestFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: cicdCreateStage
+      FunctionName: cicdSFStage
       Handler: index.handler
       Runtime: nodejs6.10
       Role: arn:aws:iam::902849442700:role/LambdaFullAccess
