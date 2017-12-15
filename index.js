@@ -94,9 +94,10 @@ exports.handler = function(event, context, callback) {
                                 };
                                 
                                 console.log("Rest API Id: ", restApiIdVal);
+
                                 var apiSFParams = {
                                     stateMachineArn: 'arn:aws:states:us-east-2:902849442700:stateMachine:WaitStage',
-                                    input:  JSON.stringify(apiParams)
+                                    input:  "{\"first_name\" : \"test\"}" //JSON.stringify(apiParams)
                                 };
 
                                 stepfunctions.startExecution(apiSFParams, function(err, data) {
