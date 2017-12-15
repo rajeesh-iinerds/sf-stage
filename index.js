@@ -97,19 +97,39 @@ exports.handler = function(event, context, callback) {
 
                                 var apiSFParams = {
                                     stateMachineArn: 'arn:aws:states:us-east-2:902849442700:stateMachine:WaitStage',
-                                    input: JSON.stringify(apiParams) // "{\"first_name\" : \"test\"}"
+                                    input: JSON.stringify(apiParams)
                                 };
 
+                                /**
+                                 * Start the StepFunction execution.
+                                 */
                                 stepfunctions.startExecution(apiSFParams, function(err, data) {
                                     if (err) console.log(err, err.stack); // an error occurred
                                     else     console.log(data);           // successful response
+                                
+                                    var getSFExecutionArn = data.executionArn;
+
+                                    var sfExecutionParams = {
+                                        executionArn: getSFExecutionArn /* required */
+                                    };
+                                    
+                                    /**
+                                     * Check the status of Stepfunction.
+                                     */
+                                    stepfunctions.describeExecution(sfExecutionParams, function(err, data) {
+                                        if (err) console.log(err, err.stack); // an error occurred
+                                        else     console.log(data);           // successful response
+                                        if (data.status === 'SUCCEEDED') {
+                                            callback(null, message);
+                                        }
+                                    });
+                                
                                 });
-                          
                             }    
                         });
                     }
                 });
-                callback(null, message);
+               
             }    
         });    
     }    
