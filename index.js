@@ -90,14 +90,14 @@ exports.handler = function(event, context, callback) {
                                 restApiIdVal = currentApiData.value;
 
                                 var apiParams = {
-                                    'apiId' : restApiIdVal
+                                    "apiId" : restApiIdVal
                                 };
                                 
                                 console.log("Rest API Id: ", restApiIdVal);
 
                                 var apiSFParams = {
                                     stateMachineArn: 'arn:aws:states:us-east-2:902849442700:stateMachine:WaitStage',
-                                    input:  "{\"first_name\" : \"test\"}" //JSON.stringify(apiParams)
+                                    input: JSON.stringify(apiParams) // "{\"first_name\" : \"test\"}"
                                 };
 
                                 stepfunctions.startExecution(apiSFParams, function(err, data) {
