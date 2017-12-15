@@ -1,4 +1,3 @@
 #!/bin/bash
 
-aws --profile gunbro cloudformation package --template-file template.yaml    --output-template-file serverless-output.yaml    --s3-bucket cicdsample.appcohesion.io
-aws --profile gunbro cloudformation deploy    --template-file serverless-output.yaml    --stack-name cicdcreatestages    --capabilities CAPABILITY_IAM
+aws --profile cct codepipeline create-pipeline --cli-input-json file://codepipeline.json

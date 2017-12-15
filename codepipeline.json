@@ -21,10 +21,10 @@
                         ], 
                         "configuration": {
                             "Owner": "rajeesh-iinerds", 
-                            "Repo": "create-stage", 
+                            "Repo": "sf-stage", 
                             "PollForSourceChanges": "true", 
                             "Branch": "master", 
-                            "OAuthToken": "****"
+                            "OAuthToken": "123"
                         }, 
                         "runOrder": 1
                     }
@@ -72,7 +72,7 @@
                         }, 
                         "outputArtifacts": [], 
                         "configuration": {
-                            "StackName": "cicdcreatestages", 
+                            "StackName": "cicdcfstages", 
                             "ActionMode": "DELETE_ONLY", 
                             "RoleArn": "arn:aws:iam::902849442700:role/lambda-cicd-sample3"
                         }, 
@@ -84,7 +84,7 @@
                                 "name": "MyAppBuild"
                             }
                         ], 
-                        "name": "cicdcreatestages", 
+                        "name": "cicdcfstages", 
                         "actionTypeId": {
                             "category": "Deploy", 
                             "owner": "AWS", 
@@ -94,10 +94,10 @@
                         "outputArtifacts": [], 
                         "configuration": {
                             "ActionMode": "CHANGE_SET_REPLACE", 
-                            "ChangeSetName": "cicdcreatestages", 
+                            "ChangeSetName": "cicdcfstages", 
                             "RoleArn": "arn:aws:iam::902849442700:role/lambda-cicd-sample3", 
                             "Capabilities": "CAPABILITY_IAM", 
-                            "StackName": "cicdcreatestages", 
+                            "StackName": "cicdcfstages", 
                             "TemplatePath": "MyAppBuild::outtemplate.yaml"
                         }, 
                         "runOrder": 2
@@ -113,9 +113,9 @@
                         }, 
                         "outputArtifacts": [], 
                         "configuration": {
-                            "StackName": "cicdcreatestages", 
+                            "StackName": "cicdcfstages", 
                             "ActionMode": "CHANGE_SET_EXECUTE", 
-                            "ChangeSetName": "cicdcreatestages"
+                            "ChangeSetName": "cicdcfstages"
                         }, 
                         "runOrder": 3
                     }
@@ -126,7 +126,7 @@
             "type": "S3", 
             "location": "codepipeline-us-east-2-819062503595"
         }, 
-        "name": "CICD-CreateStage", 
+        "name": "CICD-CFStage", 
         "version": 5
     }
 }
