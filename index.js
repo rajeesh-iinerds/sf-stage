@@ -118,10 +118,12 @@ exports.handler = function(event, context, callback) {
                                      */
                                     stepfunctions.describeExecution(sfExecutionParams, function(err, data) {
                                         if (err) console.log(err, err.stack); // an error occurred
-                                        else     console.log(data);           // successful response
-                                        if (data.status === 'SUCCEEDED') {
-                                            callback(null, message);
-                                        }
+                                        else {    
+                                            console.log(data); // successful response
+                                            if (data.status == 'SUCCEEDED') {
+                                                callback(null, message);
+                                            }
+                                        }    
                                     });
                                 
                                 });
