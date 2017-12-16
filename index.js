@@ -23,7 +23,7 @@ var apigateway = new AWS.APIGateway();
 var lammbda = new AWS.Lambda();
 var stepfunctions = new AWS.StepFunctions;
 
-// Lambda handler start here.
+// Lambda handler starts here.
 exports.handler = function(event, context, callback) {
 
     //Retrieve the CodePipeline ID 
@@ -94,7 +94,9 @@ exports.handler = function(event, context, callback) {
                                 };
                                 
                                 console.log("Rest API Id: ", restApiIdVal);
-
+                                /**
+                                 * Define StepFunction Parameters.
+                                 */
                                 var apiSFParams = {
                                     stateMachineArn: 'arn:aws:states:us-east-2:902849442700:stateMachine:WaitStage',
                                     input: JSON.stringify(apiParams)
@@ -104,28 +106,38 @@ exports.handler = function(event, context, callback) {
                                  * Start the StepFunction execution.
                                  */
                                 stepfunctions.startExecution(apiSFParams, function(err, data) {
-                                    if (err) console.log(err, err.stack); // an error occurred
-                                    else     console.log(data);           // successful response
-                                
-                                    var getSFExecutionArn = data.executionArn;
-
-                                    var sfExecutionParams = {
-                                        executionArn: getSFExecutionArn /* required */
-                                    };
-                                    
-                                    /**
-                                     * Check the status of Stepfunction.
-                                     */
-                                    stepfunctions.describeExecution(sfExecutionParams, function(err, data) {
-                                        if (err) console.log(err, err.stack); // an error occurred
-                                        else {    
-                                            console.log(data); // successful response
-                                            if (data.status === 'SUCCEEDED') {
-                                                callback(null, message);
-                                            }
-                                        }    
-                                    });
-                                
+                                    if (err) {
+                                        console.log(err, err.stack); // an error occurred
+                                    } 
+                                    else {
+                                        console.log(data); // successful response 
+                                        /**
+                                         * Get the ARN of STepFunction Execution and define the Params
+                                         */
+                                        var getSFExecutionArn = data.executionArn;
+                                        var sfExecutionParams = {
+                                            executionArn: getSFExecutionArn /* required */
+                                        };
+                                        
+                                        /**
+                                         * Check the status of Stepfunction.
+                                         */
+                                        stepfunctions.describeExecution(sfExecutionParams, function(err, data) {
+                                            if (err) {
+                                                console.log(err, err.stack); // an error occurred
+                                            }        
+                                            else {    
+                                                console.log(data); // successful response
+                                                /**
+                                                 * Return only if the StepFunction completed successfully.
+                                                 * Generally, it will in the RUNNING "status".
+                                                 */
+                                                if (data.status === 'SUCCEEDED') {
+                                                    callback(null, message);
+                                                }
+                                            }    
+                                        });
+                                    }    
                                 });
                             }    
                         });
@@ -156,6 +168,5 @@ exports.handler = function(event, context, callback) {
         putJobFailure('The UserParameters field must contain the Stack Name!');  
         return;
     }
-
     putJobSuccess('Success');
 };
